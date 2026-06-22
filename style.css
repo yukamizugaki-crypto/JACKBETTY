@@ -1,0 +1,787 @@
+@charset "UTF-8";
+
+/* =========================================
+   1. デザインシステム & 変数設定
+   ========================================= */
+:root {
+    --primary-neon: #ff0a54;      /* メインのビビッドなネオンピンク */
+    --primary-light: #ff758f;     /* 明るいピンク */
+    --bg-pink: #fff0f3;           /* ベースの薄いピンク背景 */
+    --bg-pink-darker: #ffe3e8;    /* セクション境界やグラデーション用 */
+    --text-dark: #111111;         /* 基本の黒文字 */
+    --text-muted: #555555;        /* 補足用グレー文字 */
+    --card-bg: #ffffff;           /* カードの背景（白） */
+    
+    /* レトロポップ・ブルータリスト風の太い枠線と影 */
+    --brutalist-border: 3px solid #111111;
+    --brutalist-shadow: 6px 6px 0px #111111;
+    --brutalist-shadow-hover: 10px 10px 0px #111111;
+}
+
+/* =========================================
+   2. 基本設定
+   ========================================= */
+body {
+    font-family: 'Montserrat', 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-pink);
+    color: var(--text-dark);
+    line-height: 1.8;
+    overflow-x: hidden;
+    /* 背景にうっすらと方眼グリッドパターンを敷き、プレミアム感を演出 */
+    background-image: linear-gradient(rgba(255, 10, 84, 0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255, 10, 84, 0.04) 1px, transparent 1px);
+    background-size: 25px 25px;
+}
+
+a {
+    color: var(--primary-neon);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.ib {
+    display: inline-block;
+}
+
+/* =========================================
+   3. サイドのフローティングテキスト (PC用)
+   ========================================= */
+.side-bg-text {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: clamp(3.5rem, 6vw, 6.5rem);
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 10, 84, 0.08); /* ピンクの極薄のアウトライン */
+    letter-spacing: 0.15em;
+    writing-mode: vertical-lr;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.side-left {
+    left: 25px;
+}
+
+.side-right {
+    right: 25px;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* =========================================
+   4. 🌌 背景浮遊パーティクル
+   ========================================= */
+#particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    color: rgba(255, 10, 84, 0.55); /* 不透明度を上げてより見やすく */
+    font-size: 1.8rem; /* サイズを大きく */
+    pointer-events: none;
+    animation: floatUp linear infinite;
+    user-select: none;
+    text-shadow: 0 0 8px rgba(255, 10, 84, 0.4); /* ネオン調の光沢を追加 */
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(105vh) translateX(0) scale(0.5) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-10vh) translateX(50px) scale(1.3) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   6. HEROセクション (メインビジュアル)
+   ========================================= */
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    text-align: left;
+    /* ピンクのレイヤーを乗せてモノトーン画像をポップに表現 */
+    background: linear-gradient(rgba(255, 10, 84, 0.2), rgba(17, 17, 17, 0.9)), url('img/HERO.jpg') center/cover no-repeat;
+    border-bottom: 5px solid #111111;
+    z-index: 2;
+}
+
+.hero-content {
+    padding: 0 0 80px 80px;
+    position: relative;
+    z-index: 3;
+}
+
+.rock-title {
+    font-size: clamp(3.8rem, 8vw, 7rem);
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-style: italic;
+    text-shadow: 6px 6px 0px var(--primary-neon);
+    -webkit-text-stroke: 1px #000;
+}
+
+.hero-sub {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    margin: 15px 0 10px;
+    color: #ffffff;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.hero-sub span {
+    background-color: var(--primary-neon);
+    padding: 2px 8px;
+    border: 2px solid #111111;
+    box-shadow: 3px 3px 0px #111;
+}
+
+.hero-desc {
+    font-size: 1.1rem;
+    color: #cccccc;
+    margin: 10px 0 0 0;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+
+/* =========================================
+   7. セクション共通スタイル
+   ========================================= */
+section {
+    padding: 100px 20px;
+    max-width: 850px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 60px;
+    color: var(--text-dark);
+    font-style: italic;
+    text-shadow: 4px 4px 0px var(--primary-light);
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 6px;
+    background: var(--text-dark);
+    margin: 15px auto 0;
+    border-radius: 3px;
+    border: 1px solid var(--primary-neon);
+}
+
+/* ネオブルータリスト・ポップアートカード */
+.brutalist-card {
+    background: var(--card-bg);
+    border: var(--brutalist-border);
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: var(--brutalist-shadow);
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease;
+}
+
+.brutalist-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--brutalist-shadow-hover);
+}
+
+/* =========================================
+   8. コンセプトセクション
+   ========================================= */
+.concept-content {
+    text-align: center;
+}
+
+.concept-text {
+    font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.highlight-text {
+    background-color: var(--primary-neon);
+    color: #ffffff;
+    padding: 2px 10px;
+    font-weight: 900;
+    margin: 0 4px;
+    border: 2px solid #111111;
+    transform: rotate(-1deg);
+    display: inline-block;
+}
+
+.tags {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    border: var(--brutalist-border);
+    padding: 8px 22px;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-style: italic;
+    background: #ffffff;
+    color: var(--text-dark);
+    letter-spacing: 0.05em;
+    box-shadow: 3px 3px 0px #111111;
+    transition: all 0.2s ease;
+}
+
+.tag:hover {
+    background: var(--primary-neon);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 5px 5px 0px #111111;
+}
+
+/* =========================================
+   9. おすすめメニューセクション
+   ========================================= */
+.menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.menu-card {
+    background: #ffffff;
+    border: var(--brutalist-border);
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--brutalist-shadow);
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-card::before {
+    content: "RECOMMEND";
+    position: absolute;
+    top: 15px;
+    right: -30px;
+    background: #111;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 4px 30px;
+    transform: rotate(45deg);
+    letter-spacing: 0.1em;
+}
+
+.menu-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--brutalist-shadow-hover);
+}
+
+.menu-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    display: inline-block;
+    animation: wiggle 3s infinite ease-in-out;
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(10deg) scale(1.1); }
+}
+
+.menu-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    margin: 10px 0;
+    color: var(--text-dark);
+}
+
+.menu-badge {
+    display: inline-block;
+    background: var(--primary-neon);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 900;
+    padding: 3px 12px;
+    border: 2px solid #111;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.menu-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: bold;
+}
+
+/* =========================================
+   10. ギャラリー（無限自動カルーセル）
+   ========================================= */
+.carousel-container {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    overflow: hidden;
+    background: #111111;
+    padding: 40px 0;
+    border-top: 4px solid #111111;
+    border-bottom: 4px solid #111111;
+    box-shadow: inset 0px 0px 20px rgba(0,0,0,0.8);
+}
+
+.carousel-track {
+    display: flex;
+    width: max-content;
+    animation: scrollGallery 32s linear infinite;
+}
+
+.carousel-track:hover {
+    animation-play-state: paused; /* ホバーで一時停止 */
+}
+
+.gallery-item {
+    position: relative;
+    margin: 0 15px;
+    cursor: pointer;
+    overflow: hidden;
+    border: var(--brutalist-border);
+    box-shadow: 6px 6px 0px rgba(255, 10, 84, 0.4);
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.carousel-track img {
+    height: clamp(200px, 35vw, 300px);
+    width: auto;
+    object-fit: contain;
+    display: block;
+    filter: none; /* 最初からカラー表示 */
+    transition: all 0.4s ease;
+}
+
+.gallery-item::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: transparent; /* 最初からオーバーレイなし */
+    transition: all 0.4s ease;
+}
+
+.gallery-label {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    width: 100%;
+    background: #111111;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: bottom 0.3s ease;
+    z-index: 5;
+    border-top: 2px solid var(--primary-neon);
+}
+
+/* ホバーでポップアップ */
+.gallery-item:hover {
+    transform: scale(1.05) rotate(1deg);
+    box-shadow: 10px 10px 0px var(--primary-neon);
+    z-index: 10;
+}
+
+.gallery-item:hover img {
+    filter: none;
+}
+
+.gallery-item:hover::after {
+    background: transparent;
+}
+
+.gallery-item:hover .gallery-label {
+    bottom: 0;
+}
+
+@keyframes scrollGallery {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* =========================================
+   11. インフォメーション（テーブル）
+   ========================================= */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.info-table th, .info-table td {
+    padding: 22px 15px;
+    border-bottom: 2px dashed #ddd;
+    text-align: left;
+}
+
+.info-table tr:last-child th, .info-table tr:last-child td {
+    border-bottom: none;
+}
+
+.info-table th {
+    width: 30%;
+    color: var(--primary-neon);
+    font-weight: 900;
+    font-size: 1.15rem;
+    font-style: italic;
+    letter-spacing: 0.05em;
+}
+
+.info-table td {
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.access-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+    font-weight: normal;
+}
+
+.btn-wrap {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+    border: var(--brutalist-border);
+    color: #ffffff;
+    background: var(--primary-neon);
+    padding: 12px 30px;
+    font-weight: 900;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0px #111111;
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-outline {
+    background: #ffffff;
+    color: var(--text-dark);
+}
+
+.btn:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px transparent;
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-neon);
+    color: #ffffff;
+}
+
+/* =========================================
+   12. Google マップセクション
+   ========================================= */
+.map-container {
+    border: var(--brutalist-border);
+    box-shadow: var(--brutalist-shadow);
+    background: #000;
+    line-height: 0;
+    overflow: hidden;
+    position: relative;
+    height: 400px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.map-container:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: var(--brutalist-shadow-hover);
+}
+
+.map-container iframe {
+    border: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* =========================================
+   13. フッター
+   ========================================= */
+footer {
+    background: #111111;
+    color: #ffffff;
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 5px solid var(--primary-neon);
+    font-weight: bold;
+    letter-spacing: 0.1em;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   14. スクロールアニメーション用
+   ========================================= */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.fade-in.appear {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================================
+   14.5. ハンバーガーメニュー
+   ========================================= */
+.menu-toggle {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    width: 54px;
+    height: 54px;
+    background-color: var(--primary-neon);
+    border: var(--brutalist-border);
+    box-shadow: 4px 4px 0px #111111;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    z-index: 10000;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 4px;
+}
+
+.menu-toggle:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #111111;
+}
+
+.menu-toggle:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #111111;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.68, -0.6, 0.27, 1.55);
+}
+
+/* トグルオープン時の三本線アニメーション */
+.menu-toggle.open span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.open span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* メニューのオーバーレイ */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(17, 17, 17, 0.97);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.menu-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.menu-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.menu-nav li {
+    margin: 30px 0;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.menu-overlay.open .menu-nav li {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* リンクフェードインの時間差設定 */
+.menu-overlay.open .menu-nav li:nth-child(1) { transition-delay: 0.1s; }
+.menu-overlay.open .menu-nav li:nth-child(2) { transition-delay: 0.15s; }
+.menu-overlay.open .menu-nav li:nth-child(3) { transition-delay: 0.2s; }
+.menu-overlay.open .menu-nav li:nth-child(4) { transition-delay: 0.25s; }
+.menu-overlay.open .menu-nav li:nth-child(5) { transition-delay: 0.3s; }
+
+.menu-nav a {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-style: italic;
+    letter-spacing: 0.12em;
+    display: inline-block;
+    padding: 8px 20px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    text-shadow: 3px 3px 0px rgba(255, 10, 84, 0.6);
+}
+
+.menu-nav a:hover {
+    color: var(--primary-neon);
+    text-shadow: 4px 4px 0px #ffffff;
+    transform: scale(1.1) rotate(-2deg);
+}
+
+@media (max-width: 768px) {
+    .menu-nav a {
+        font-size: 1.8rem;
+    }
+}
+
+/* =========================================
+   15. レスポンシブ対応 (メディアクエリ)
+   ========================================= */
+@media (max-width: 1100px) {
+    .side-bg-text {
+        -webkit-text-stroke: 1px rgba(255, 10, 84, 0.03); /* 薄くしてコンテンツと干渉しにくく */
+    }
+}
+
+@media (max-width: 850px) {
+    .side-bg-text {
+        display: none; /* タブレット以下では非表示 */
+    }
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 60px 15px;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+        margin-bottom: 40px;
+    }
+    
+    /* スマホではHEROのテキストを中央揃えに */
+    .hero {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .hero-content {
+        padding: 20px;
+    }
+    
+    .rock-title {
+        text-shadow: 4px 4px 0px var(--primary-neon);
+    }
+    
+    /* テーブルを縦積みに */
+    .info-table th, .info-table td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .info-table th {
+        border-bottom: none;
+        padding-bottom: 5px;
+        font-size: 1.1rem;
+    }
+    
+    .info-table td {
+        padding-top: 0;
+        padding-bottom: 20px;
+    }
+    
+    .info-table tr:last-child td {
+        padding-bottom: 5px;
+    }
+    
+    .btn-wrap {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* メニューグリッドを1列に */
+    .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .brutalist-card {
+        padding: 25px 20px;
+    }
+}
